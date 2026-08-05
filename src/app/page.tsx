@@ -17,6 +17,7 @@ import {
 
 import { Brand } from "@/components/brand";
 import { PhoneMockup } from "@/components/phone-mockup";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { WaitlistForm } from "@/components/waitlist-form";
 
 export const metadata: Metadata = {
@@ -130,9 +131,12 @@ export default function Home() {
             <a href="#fonctionnalites">Fonctionnalités</a>
             <a href="#questions">Questions</a>
           </nav>
-          <a className="button button-small" href="#liste-attente">
-            Rejoindre la bêta
-          </a>
+          <div className="nav-actions">
+            <ThemeToggle />
+            <a className="button button-small" href="#liste-attente">
+              Rejoindre la bêta
+            </a>
+          </div>
         </div>
       </header>
 

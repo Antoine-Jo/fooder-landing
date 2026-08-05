@@ -56,13 +56,30 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
-  themeColor: "#F6F0E7",
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F6F0E7" },
+    { media: "(prefers-color-scheme: dark)", color: "#15110F" },
+  ],
 };
+
+const themeScript = `
+  try {
+    const savedTheme = localStorage.getItem('fooder-theme');
+    const theme = savedTheme === 'light' || savedTheme === 'dark'
+      ? savedTheme
+      : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+  } catch (_) {}
+`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html className={`${fraunces.variable} ${manrope.variable}`} lang="fr">
+    <html className={`${fraunces.variable} ${manrope.variable}`} lang="fr" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         {children}
         <Analytics />

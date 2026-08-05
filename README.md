@@ -11,6 +11,10 @@ Site de présentation et liste d'attente de Fooder, l'application qui aide les D
 - Vercel Web Analytics
 - Vitest
 
+Le thème suit la préférence système au premier chargement. Le visiteur peut
+ensuite choisir le thème clair ou sombre depuis l'en-tête ; ce choix est conservé
+localement dans le navigateur.
+
 ## Installation
 
 Prérequis : Node.js 22 et pnpm 11.
