@@ -1,10 +1,15 @@
 import type { MetadataRoute } from "next";
 
+import { getSiteConfig } from "@/lib/site-config";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const config = getSiteConfig();
+  if (!config.isPublic) return [];
+
   return [
-    { url: baseUrl, changeFrequency: "monthly", priority: 1 },
-    { url: `${baseUrl}/confidentialite`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${baseUrl}/conditions`, changeFrequency: "yearly", priority: 0.3 },
+    { url: config.siteUrl, changeFrequency: "monthly", priority: 1 },
+    { url: `${config.siteUrl}/confidentialite`, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${config.siteUrl}/conditions`, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${config.siteUrl}/mentions-legales`, changeFrequency: "yearly", priority: 0.3 },
   ];
 }

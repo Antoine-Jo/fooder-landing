@@ -33,6 +33,9 @@ Le site est disponible sur `http://localhost:3000`.
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Publique | URL canonique du site, sans slash final |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Publique | Adresse affichée pour le contact et les demandes RGPD |
+| `PUBLICATION_STATUS` | Serveur | `preview` bloque l'indexation et la collecte ; `public` active les garde-fous de publication |
+| `LEGAL_NOTICE_READY` | Serveur | Doit être `true` uniquement après validation des mentions légales complètes |
+| `WAITLIST_ENABLED` | Serveur | Doit rester `false` dans toutes les previews |
 | `SUPABASE_URL` | Serveur | URL du projet Supabase Fooder |
 | `SUPABASE_SERVICE_ROLE_KEY` | Serveur | Clé service role, jamais exposée au navigateur |
 | `WAITLIST_RATE_LIMIT_SALT` | Serveur | Secret aléatoire d'au moins 32 caractères pour l'empreinte anti-abus |
@@ -48,6 +51,7 @@ pnpm dev
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm test:e2e
 pnpm build
 pnpm check
 ```
@@ -64,9 +68,15 @@ public/         illustrations culinaires originales
 
 ## Mockups et droits
 
-Les écrans représentés reprennent les parcours réels du prototype Expo : découverte, choix Duo privés, accord commun et planification. Les trois illustrations culinaires SVG ont été créées spécifiquement pour ce site et ne réutilisent aucune photographie de Google Places ou d'une banque d'images.
+Les écrans Découverte et Accord sont de vraies captures du rendu Expo, générées
+depuis le harness de développement documenté dans `../app/docs/MARKETING_CAPTURES.md`.
+Les écrans de confidentialité et de planification restent des compositions web
+fidèles aux parcours réels. Les illustrations culinaires ont été créées pour
+Fooder et ne réutilisent aucune photographie Google Places ou banque d'images.
 
-Avant chaque publication, vérifier que les écrans restent cohérents avec l'application et remplacer les mises en situation par des captures validées si le design mobile évolue.
+Avant chaque publication, régénérer les captures si le design mobile évolue et
+vérifier que `EXPO_PUBLIC_MARKETING_CAPTURE_MODE` n'est configuré dans aucun
+environnement public ou EAS.
 
 ## Déploiement Vercel
 
@@ -76,4 +86,8 @@ Avant chaque publication, vérifier que les écrans restent cohérents avec l'ap
 4. Définir le domaine final dans `NEXT_PUBLIC_SITE_URL`.
 5. Vérifier `/robots.txt`, `/sitemap.xml` et l'aperçu Open Graph après déploiement.
 
-Le formulaire reste volontairement indisponible si un secret serveur manque. Aucune clé Supabase n'est utilisée dans un Client Component.
+La procédure de passage de preview à publication est détaillée dans
+[`docs/PRODUCTION_CHECKLIST.md`](docs/PRODUCTION_CHECKLIST.md), y compris la règle
+Vercel WAF à configurer dans le dashboard.
+
+Le formulaire reste volontairement indisponible dans les previews et si un secret serveur manque. Aucune clé Supabase n'est utilisée dans un Client Component. Une publication publique échoue au build si l'URL HTTPS, l'email de contact, les mentions légales ou la waitlist ne sont pas explicitement validés.
