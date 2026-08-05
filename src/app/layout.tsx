@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { Fraunces, Manrope } from "next/font/google";
 
@@ -59,7 +60,7 @@ export const viewport: Viewport = {
   themeColor: "#F6F0E7",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html className={`${fraunces.variable} ${manrope.variable}`} lang="fr">
       <body>
