@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fooder Landing
 
-## Getting Started
+Site de présentation et liste d'attente de Fooder, l'application qui aide les Duos à choisir un restaurant sans révéler leurs choix individuels.
 
-First, run the development server:
+## Stack
+
+- Next.js 16.3, App Router et React Server Components
+- React 19 et TypeScript strict
+- Tailwind CSS 4 pour la chaîne CSS, avec tokens et styles éditoriaux dans `globals.css`
+- Supabase pour la liste d'attente
+- Vercel Web Analytics
+- Vitest
+
+## Installation
+
+Prérequis : Node.js 22 et pnpm 11.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+cp .env.example .env.local
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Le site est disponible sur `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variables d'environnement
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Portée | Description |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Publique | URL canonique du site, sans slash final |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Publique | Adresse affichée pour le contact et les demandes RGPD |
+| `SUPABASE_URL` | Serveur | URL du projet Supabase Fooder |
+| `SUPABASE_SERVICE_ROLE_KEY` | Serveur | Clé service role, jamais exposée au navigateur |
+| `WAITLIST_RATE_LIMIT_SALT` | Serveur | Secret aléatoire d'au moins 32 caractères pour l'empreinte anti-abus |
 
-## Learn More
+La migration de la liste d'attente vit dans le repo de l'application, source de vérité Supabase :
 
-To learn more about Next.js, take a look at the following resources:
+`../app/supabase/migrations/20260805170000_create_waitlist_signups.sql`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Commandes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm check
+```
 
-## Deploy on Vercel
+## Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+src/
+  app/          routes, métadonnées et action serveur
+  components/   marque, mockups et formulaire
+  lib/          validation de la liste d'attente
+public/         illustrations culinaires originales
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Mockups et droits
+
+Les écrans représentés reprennent les parcours réels du prototype Expo : découverte, choix Duo privés, accord commun et planification. Les trois illustrations culinaires SVG ont été créées spécifiquement pour ce site et ne réutilisent aucune photographie de Google Places ou d'une banque d'images.
+
+Avant chaque publication, vérifier que les écrans restent cohérents avec l'application et remplacer les mises en situation par des captures validées si le design mobile évolue.
+
+## Déploiement Vercel
+
+1. Importer le repo GitHub privé dans Vercel.
+2. Configurer les cinq variables d'environnement pour Preview et Production.
+3. Utiliser une base Supabase de Preview séparée si les previews doivent accepter des inscriptions.
+4. Définir le domaine final dans `NEXT_PUBLIC_SITE_URL`.
+5. Vérifier `/robots.txt`, `/sitemap.xml` et l'aperçu Open Graph après déploiement.
+
+Le formulaire reste volontairement indisponible si un secret serveur manque. Aucune clé Supabase n'est utilisée dans un Client Component.
