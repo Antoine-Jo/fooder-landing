@@ -28,19 +28,20 @@ export default function TermsPage() {
         <h2>1. Éditeur</h2>
         <p>
           Fooder est actuellement édité à titre personnel et non commercial par
-          Antoine Jonville dans le cadre d&apos;une phase de conception et de test. Les
-          site reste une preview non indexée. Les informations requises figurent sur
-          la page Mentions légales et devront être complétées avant l&apos;ouverture publique.
+          Antoine Jonville dans le cadre d&apos;une phase de conception et de test. Le
+          site est un prototype public volontairement non indexé. Les informations
+          requises figurent sur la page Mentions légales et devront être complétées
+          avant l&apos;activation de la liste d&apos;attente.
         </p>
       </section>
 
       <section className="legal-section">
         <h2>2. Objet du site</h2>
         <p>
-          Le site informe sur le projet Fooder et permet de demander à être prévenu
-          de l&apos;ouverture de sa bêta. L&apos;inscription ne garantit ni une date de sortie,
-          ni une place dans un programme de test, ni la disponibilité d&apos;une
-          fonctionnalité donnée.
+          Le site informe sur le projet Fooder. Sa liste d&apos;attente est actuellement
+          désactivée. Lorsqu&apos;elle sera disponible, l&apos;inscription ne garantira ni une
+          date de sortie, ni une place dans un programme de test, ni la disponibilité
+          d&apos;une fonctionnalité donnée.
         </p>
       </section>
 
