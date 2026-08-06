@@ -29,8 +29,8 @@ export default function TermsPage() {
         <p>
           Fooder est actuellement édité à titre personnel et non commercial par
           Antoine Jonville dans le cadre d&apos;une phase de conception et de test. Les
-          mentions relatives au statut juridique, à l&apos;adresse de contact et à
-          l&apos;hébergement définitif seront complétées avant l&apos;ouverture publique.
+          site reste une preview non indexée. Les informations requises figurent sur
+          la page Mentions légales et devront être complétées avant l&apos;ouverture publique.
         </p>
       </section>
 

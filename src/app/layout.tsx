@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { Fraunces, Manrope } from "next/font/google";
 
+import { getSiteConfig } from "@/lib/site-config";
+
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -17,16 +19,10 @@ const manrope = Manrope({
   display: "swap",
 });
 
-function getSiteUrl() {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-  return "http://localhost:3000";
-}
+const siteConfig = getSiteConfig();
 
 export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
+  metadataBase: new URL(siteConfig.siteUrl),
   title: {
     default: "Fooder | À deux, trouvez enfin où manger",
     template: "%s | Fooder",
@@ -52,7 +48,11 @@ export const metadata: Metadata = {
     title: "Fooder, mettez-vous à table.",
     description: "Le restaurant qui vous met enfin d'accord.",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: siteConfig.isPublic,
+    follow: siteConfig.isPublic,
+    googleBot: { index: siteConfig.isPublic, follow: siteConfig.isPublic },
+  },
 };
 
 export const viewport: Viewport = {

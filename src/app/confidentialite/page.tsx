@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { LegalShell } from "@/components/legal-shell";
+import { getSiteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
+  const { contactEmail } = getSiteConfig();
 
   return (
     <LegalShell>
@@ -22,9 +23,9 @@ export default function PrivacyPage() {
       </p>
 
       <div className="legal-notice">
-        Fooder est actuellement développé à titre personnel par Antoine Jonville.
-        Les coordonnées professionnelles et mentions définitives seront publiées
-        avant l&apos;ouverture commerciale du service.
+        Cette preview n&apos;accepte aucune inscription. La collecte sera activée
+        uniquement après publication des coordonnées légales et du canal permettant
+        d&apos;exercer vos droits.
       </div>
 
       <section className="legal-section">
@@ -76,8 +77,7 @@ export default function PrivacyPage() {
           de votre consentement ou au plus tard trois ans après le dernier contact.
           Les empreintes utilisées contre les abus expirent automatiquement après
           quinze minutes. Les enregistrements techniques devenus inutiles sont
-          purgés lors des soumissions suivantes, au plus tard après leur fenêtre
-          active de vingt-quatre heures.
+          supprimés par lots lors des soumissions suivantes après vingt-quatre heures.
         </p>
       </section>
 
@@ -86,9 +86,7 @@ export default function PrivacyPage() {
         <p>
           Vous pouvez demander l&apos;accès, la rectification ou l&apos;effacement de vos
           données, retirer votre consentement ou exercer les autres droits prévus
-          par le RGPD. L&apos;adresse de contact dédiée sera renseignée avant la mise en
-          ligne publique. Vous pouvez également déposer une réclamation auprès de
-          la CNIL.
+          par le RGPD. Vous pouvez également déposer une réclamation auprès de la CNIL.
           {contactEmail ? (
             <> Pour exercer ces droits, écrivez à <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.</>
           ) : null}

@@ -11,9 +11,12 @@ export const waitlistSchema = z.object({
   website: z.string().max(500).optional(),
 });
 
+export const WAITLIST_CONSENT_VERSION = "2026-08-06.1";
+
 export type WaitlistState = {
   status: "idle" | "success" | "error";
   message: string;
+  reason?: "disabled" | "invalid" | "configuration" | "upstream" | "rate_limited";
 };
 
 export const initialWaitlistState: WaitlistState = { status: "idle", message: "" };

@@ -11,7 +11,6 @@ import {
   MapPin,
   SlidersHorizontal,
   Sparkles,
-  Star,
   UsersRound,
 } from "lucide-react";
 
@@ -19,6 +18,7 @@ import { Brand } from "@/components/brand";
 import { PhoneMockup } from "@/components/phone-mockup";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { WaitlistForm } from "@/components/waitlist-form";
+import { getSiteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Fooder | Trouvez le restaurant qui vous met d'accord",
@@ -99,17 +99,36 @@ const faqs = [
 ];
 
 export default function Home() {
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "Fooder",
-    applicationCategory: "LifestyleApplication",
-    operatingSystem: "iOS, Android",
-    inLanguage: "fr-FR",
-    description:
-      "Fooder aide les duos à choisir un restaurant en révélant uniquement leurs choix communs.",
-  };
+  const siteConfig = getSiteConfig();
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "Fooder",
+      url: siteConfig.siteUrl,
+      applicationCategory: "LifestyleApplication",
+      operatingSystem: "iOS, Android",
+      inLanguage: "fr-FR",
+      description:
+        "Fooder aide les duos à choisir un restaurant en révélant uniquement leurs choix communs.",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Fooder",
+      url: siteConfig.siteUrl,
+      inLanguage: "fr-FR",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+  ];
 
   return (
     <>
@@ -134,7 +153,8 @@ export default function Home() {
           <div className="nav-actions">
             <ThemeToggle />
             <a className="button button-small" href="#liste-attente">
-              Rejoindre la bêta
+              <span className="desktop-cta">Être prévenu de la bêta</span>
+              <span className="mobile-cta">Liste d&apos;attente</span>
             </a>
           </div>
         </div>
@@ -154,18 +174,19 @@ export default function Home() {
               Chacun choisit en privé. Fooder révèle seulement les adresses que
               vous avez tous les deux envie de découvrir.
             </p>
-            <WaitlistForm location="hero" />
-            <p className="form-reassurance">
-              <LockKeyhole aria-hidden="true" size={14} />
-              Uniquement des nouvelles de Fooder. Aucun spam.
-            </p>
+            <WaitlistForm
+              contactEmail={siteConfig.contactEmail}
+              enabled={siteConfig.waitlistEnabled}
+              location="hero"
+            />
+            <ConsentNotice contactEmail={siteConfig.contactEmail} />
           </div>
 
           <div aria-label="Aperçu de l'application Fooder" className="hero-visual">
             <div className="sun-stamp" aria-hidden="true">
-              <Star fill="currentColor" size={18} />
-              <span>4,8</span>
-              <small>vos goûts</small>
+              <Check size={20} strokeWidth={3} />
+              <span>Accord</span>
+              <small>trouvé à deux</small>
             </div>
             <PhoneMockup className="phone-main" screen="discover" />
             <PhoneMockup className="phone-match" screen="match" />
@@ -282,13 +303,13 @@ export default function Home() {
         <section className="finale-section shell">
           <div className="finale-copy">
             <span className="section-kicker">Tout le monde est d&apos;accord</span>
-            <h2>La décision est prise.<br />Il ne reste qu&apos;à réserver.</h2>
+            <h2>La décision est prise.<br />La sortie peut commencer.</h2>
             <p>
               Affinez vos accords, choisissez votre adresse finale et proposez
-              une date sans quitter votre Table.
+              une date, ouvrez l&apos;itinéraire et ajoutez la sortie à votre calendrier.
             </p>
             <a className="text-link" href="#liste-attente">
-              Je veux tester Fooder <ArrowRight size={18} />
+              Être prévenu de la bêta <ArrowRight size={18} />
             </a>
           </div>
           <div className="finale-visual">
@@ -325,11 +346,12 @@ export default function Home() {
               </p>
             </div>
             <div className="waitlist-card">
-              <WaitlistForm location="footer" />
-              <p className="form-reassurance">
-                En vous inscrivant, vous acceptez notre{" "}
-                <Link href="/confidentialite">politique de confidentialité</Link>.
-              </p>
+              <WaitlistForm
+                contactEmail={siteConfig.contactEmail}
+                enabled={siteConfig.waitlistEnabled}
+                location="footer"
+              />
+              <ConsentNotice contactEmail={siteConfig.contactEmail} />
             </div>
           </div>
         </section>
@@ -344,7 +366,8 @@ export default function Home() {
           <div className="footer-links">
             <Link href="/confidentialite">Confidentialité</Link>
             <Link href="/conditions">Conditions</Link>
-            {contactEmail ? <a href={`mailto:${contactEmail}`}>Contact</a> : null}
+            <Link href="/mentions-legales">Mentions légales</Link>
+            {siteConfig.contactEmail ? <a href={`mailto:${siteConfig.contactEmail}`}>Contact</a> : null}
           </div>
         </div>
         <div className="shell footer-bottom">
@@ -353,5 +376,19 @@ export default function Home() {
         </div>
       </footer>
     </>
+  );
+}
+
+function ConsentNotice({ contactEmail }: { contactEmail?: string }) {
+  return (
+    <p className="form-reassurance consent-notice">
+      <LockKeyhole aria-hidden="true" size={14} />
+      <span>
+        En envoyant votre adresse, vous acceptez de recevoir les informations
+        relatives à la bêta et au lancement de Fooder. Retrait à tout moment
+        {contactEmail ? <> via <a href={`mailto:${contactEmail}`}>{contactEmail}</a></> : null}.{" "}
+        <Link href="/confidentialite">Confidentialité</Link>.
+      </span>
+    </p>
   );
 }
