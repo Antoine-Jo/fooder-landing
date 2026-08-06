@@ -42,7 +42,7 @@ test("persists dark theme and remains free of horizontal overflow", async ({ pag
 test("legal pages remain reachable", async ({ page }) => {
   await page.getByRole("link", { name: "Mentions légales" }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Mentions légales");
-  await expect(page.getByText(/Cette preview ne doit pas être rendue publique/)).toBeVisible();
+  await expect(page.getByText(/Ce prototype public reste volontairement non indexé/)).toBeVisible();
 });
 
 test("matches the light and dark visual baselines", async ({ page }) => {

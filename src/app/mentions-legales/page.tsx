@@ -14,7 +14,7 @@ export default function LegalNoticePage() {
 
   return (
     <LegalShell>
-      <span className="section-kicker">Statut : {isPublic ? "publication" : "preview privée"}</span>
+      <span className="section-kicker">Statut : {isPublic ? "publication" : "prototype public"}</span>
       <h1>Mentions légales</h1>
       <p className="legal-intro">
         Fooder est actuellement développé dans le cadre d&apos;une phase personnelle,
@@ -23,27 +23,27 @@ export default function LegalNoticePage() {
 
       {!isPublic ? (
         <div className="legal-notice">
-          Cette preview ne doit pas être rendue publique ni indexée. L&apos;adresse de
-          l&apos;éditeur et les informations d&apos;hébergement définitives doivent être
-          validées avant de passer <code>PUBLICATION_STATUS</code> à <code>public</code>.
+          Ce prototype public reste volontairement non indexé et n&apos;accepte aucune
+          inscription. Les informations légales définitives devront être validées
+          avant d&apos;activer la liste d&apos;attente ou toute diffusion commerciale.
         </div>
       ) : null}
 
       <section className="legal-section">
         <h2>Éditeur et directeur de publication</h2>
         <p>Antoine Jonville, éditeur à titre personnel et directeur de publication.</p>
-        <p>Adresse postale : à compléter avant publication publique.</p>
+        <p>Adresse postale : à compléter avant activation de la liste d&apos;attente.</p>
         <p>
-          Contact : {contactEmail ? <a href={`mailto:${contactEmail}`}>{contactEmail}</a> : "à créer avant publication publique"}.
+          Contact : {contactEmail ? <a href={`mailto:${contactEmail}`}>{contactEmail}</a> : "à créer avant activation de la liste d'attente"}.
         </p>
       </section>
 
       <section className="legal-section">
         <h2>Hébergement du site</h2>
         <p>
-          Hébergement prévu par Vercel Inc. La région d&apos;exécution, l&apos;adresse légale
+          Site hébergé par Vercel Inc. La région d&apos;exécution, l&apos;adresse légale
           complète de l&apos;hébergeur et les garanties de transfert devront être
-          reportées ici depuis la configuration effective du projet avant publication.
+          reportées ici avant activation de la liste d&apos;attente.
         </p>
       </section>
 

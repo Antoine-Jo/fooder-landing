@@ -23,7 +23,7 @@ export default function PrivacyPage() {
       </p>
 
       <div className="legal-notice">
-        Cette preview n&apos;accepte aucune inscription. La collecte sera activée
+        Ce prototype public n&apos;accepte aucune inscription. La collecte sera activée
         uniquement après publication des coordonnées légales et du canal permettant
         d&apos;exercer vos droits.
       </div>
@@ -52,9 +52,9 @@ export default function PrivacyPage() {
       <section className="legal-section">
         <h2>3. Hébergement et destinataires</h2>
         <p>
-          Le site est destiné à être hébergé par Vercel et la liste d&apos;attente est
-          stockée par Supabase. Ces prestataires traitent les données uniquement
-          pour fournir leur infrastructure. Consultez les politiques de{" "}
+          Le site est hébergé par Vercel. Si elle est activée, la liste d&apos;attente sera
+          stockée par Supabase. Ces prestataires traitent les données uniquement pour
+          fournir leur infrastructure. Consultez les politiques de{" "}
           <a href="https://vercel.com/legal/privacy-policy" rel="noreferrer" target="_blank">Vercel</a>
           {" "}et de{" "}
           <a href="https://supabase.com/privacy" rel="noreferrer" target="_blank">Supabase</a>.
